@@ -1,16 +1,58 @@
-// src/navigation/AppNavigator.tsx
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import SplashScreen from '../screens/SplashScreen';
 import AuthScreen from '../screens/AuthScreen';
 import NewsFeed from '../screens/NewsFeed';
 import AboutScreen from '../screens/AboutScreen';
+import { useTheme } from 'react-native-paper';
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+// Create your tab navigator component
+function MainTabs() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'NewsFeed') {
+            iconName = focused ? 'newspaper' : 'newspaper-outline';
+          } else if (route.name === 'About') {
+            iconName = focused ? 'information-circle' : 'information-circle-outline';
+          }
+
+          return <Ionicons 
+  name={iconName as 'newspaper' | 'newspaper-outline' | 'information-circle' | 'information-circle-outline'} 
+  size={size} 
+  color={color} 
+/>;
+        },
+        tabBarActiveTintColor: '#6200ee',
+        tabBarInactiveTintColor: 'gray',
+      })}
+    >
+      <Tab.Screen 
+        name="NewsFeed" 
+        component={NewsFeed} 
+        options={{ title: 'Top Stories' }} 
+      />
+      <Tab.Screen 
+        name="About" 
+        component={AboutScreen} 
+        options={{ title: 'About Me' }} 
+      />
+    </Tab.Navigator>
+  );
+}
 
 export default function AppNavigator() {
+
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navigationTheme}>
       <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen 
           name="Splash" 
@@ -20,17 +62,12 @@ export default function AppNavigator() {
         <Stack.Screen 
           name="Auth" 
           component={AuthScreen} 
-          options={{ title: 'Login/Register' }} 
+          options={{ title: 'Login/Register', headerShown: false }} 
         />
         <Stack.Screen 
-          name="NewsFeed" 
-          component={NewsFeed} 
-          options={{ title: 'Top Stories' }} 
-        />
-        <Stack.Screen 
-          name="About" 
-          component={AboutScreen} 
-          options={{ title: 'About Me' }} 
+          name="Main" 
+          component={MainTabs} 
+          options={{ headerShown: false }} 
         />
       </Stack.Navigator>
     </NavigationContainer>

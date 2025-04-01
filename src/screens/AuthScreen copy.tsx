@@ -8,15 +8,9 @@ import { loginUser, registerUser } from '../utils/database';
 type RootStackParamList = {
   Splash: undefined;
   Auth: undefined;
-  Main: {
-    screen: keyof MainTabParamList;
-    params?: any;
-  };
-};
-export type MainTabParamList = {
   NewsFeed: undefined;
-  About: undefined;
 };
+
 export default function AuthScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'Auth'>>();
   const [email, setEmail] = useState('');
@@ -28,21 +22,15 @@ export default function AuthScreen() {
       Alert.alert('Error', 'Please fill all fields');
       return;
     }
-  
+
     try {
-      const success = isLogin
+      const success = isLogin 
         ? await loginUser(email, password)
         : await registerUser(email, password);
-  
+
       if (success) {
-        if (isLogin) {
-          console.log('✅ Login successful. Navigating to NewsFeed...');
-          navigation.navigate('Main', { screen: 'NewsFeed' });
-        } else {
-          console.log('✅ Registration successful. Navigating to Login...');
-          Alert.alert('Success', 'Registration successful! Please log in.');
-          setIsLogin(true); // Switch to login mode after registration
-        }
+        console.log('Navigating to NewsFeed...');
+        navigation.navigate('NewsFeed');
       } else {
         Alert.alert('Error', isLogin 
           ? 'Invalid credentials' 
@@ -52,7 +40,6 @@ export default function AuthScreen() {
       Alert.alert('Error', 'An error occurred');
     }
   };
-  
 
   return (
     <View style={styles.container}>
