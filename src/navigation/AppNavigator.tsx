@@ -7,7 +7,7 @@ import AuthScreen from '../screens/AuthScreen';
 import NewsFeed from '../screens/NewsFeed';
 import AboutScreen from '../screens/AboutScreen';
 import { useTheme } from 'react-native-paper';
-
+import { getNavigationTheme } from './themeUtils';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -50,10 +50,23 @@ function MainTabs() {
 }
 
 export default function AppNavigator() {
-
+  const paperTheme = useTheme();
+  const navigationTheme = getNavigationTheme(paperTheme);
   return (
     <NavigationContainer theme={navigationTheme}>
-      <Stack.Navigator initialRouteName="Splash">
+      <Stack.Navigator 
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: paperTheme.colors.elevation.level2,
+        },
+        headerTintColor: paperTheme.colors.onSurface,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        cardStyle: {
+          backgroundColor: paperTheme.colors.background,
+        },}}
+      initialRouteName="Splash">
         <Stack.Screen 
           name="Splash" 
           component={SplashScreen} 

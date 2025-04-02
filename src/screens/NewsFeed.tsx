@@ -30,6 +30,37 @@ const NewsFeed = () => {
       );
     }
   };
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+    card: {
+      margin: 8,
+      borderRadius: 8,
+      elevation: 2,
+      backgroundColor: theme.dark 
+        ? '#2a0d36' 
+        : '#f3e5f5', 
+    },
+    title: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      marginBottom: 4,
+      color: theme.dark ? '#ffffff' : '#000000', 
+    },
+    author: {
+      fontSize: 14,
+      color: theme.dark ? '#bbbbbb' : '#555555', 
+      fontStyle: 'italic',
+      marginBottom: 4,
+    },
+    url: {
+      fontSize: 12,
+      color: theme.colors.primary,
+      textDecorationLine: 'underline',
+    },
+  });
 
   return (
     <View style={styles.container}>
@@ -59,42 +90,16 @@ const NewsFeed = () => {
             refreshing={loading}
             onRefresh={refresh}
             colors={[theme.colors.primary]}
+            tintColor={theme.colors.primary}
+            progressBackgroundColor={theme.colors.surface}
           />
         }
         ListFooterComponent={
-          loading ? <ActivityIndicator animating /> : null
+          loading ? <ActivityIndicator animating color={theme.colors.primary} /> : null
         }
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  card: {
-    margin: 8,
-    borderRadius: 8,
-    elevation: 2,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  author: {
-    fontSize: 14,
-    color: '#666',
-    fontStyle: 'italic',
-    marginBottom: 4,
-  },
-  url: {
-    fontSize: 12,
-    color: '#1a73e8',
-    textDecorationLine: 'underline',
-  },
-});
 
 export default NewsFeed;

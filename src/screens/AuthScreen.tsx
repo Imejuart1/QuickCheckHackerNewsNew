@@ -4,6 +4,7 @@ import { Button, TextInput, Title } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { loginUser, registerUser } from '../utils/database';
+import { useTheme } from 'react-native-paper';
 
 type RootStackParamList = {
   Splash: undefined;
@@ -22,6 +23,41 @@ export default function AuthScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(true);
+  const theme = useTheme();
+  console.log('Current theme:', {
+    dark: theme.dark,
+    colors: {
+      background: theme.colors.background,
+      surface: theme.colors.surface,
+      onBackground: theme.colors.onBackground
+    }
+  });
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      padding: 20,
+      backgroundColor: theme.colors.background,
+    },
+    title: {
+      textAlign: 'center',
+      marginBottom: 20,
+      fontSize: 24,
+      color: theme.colors.onBackground,
+    },
+    input: {
+      marginBottom: 15,
+      backgroundColor: theme.colors.surface,
+    },
+    button: {
+      marginTop: 10,
+      padding: 5,
+    },
+    toggleButton: {
+      marginTop: 15,
+      color: theme.colors.primary,
+    },
+  });
 
   const handleAuth = async () => {
     if (!email || !password) {
@@ -97,25 +133,3 @@ export default function AuthScreen() {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: 20,
-    fontSize: 24,
-  },
-  input: {
-    marginBottom: 15,
-  },
-  button: {
-    marginTop: 10,
-    padding: 5,
-  },
-  toggleButton: {
-    marginTop: 15,
-  },
-});
